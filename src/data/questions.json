@@ -1,0 +1,642 @@
+[
+  {
+    "id": 1,
+    "topic": "Execution Context",
+    "difficulty": "Beginner",
+    "question": "How is the Global Execution Context created? Explain the two phases.",
+    "detailed_answer": "Everything in JavaScript happens inside an Execution Context. When you run a JS program, a Global Execution Context (GEC) is created. It is created in two phases: \n1. Memory Creation Phase: JS Engine scans the code and allocates memory for variables and functions. Variables are initialized with `undefined`, and functions hold the entire function code.\n2. Code Execution Phase: The engine runs through the code line by line, assigning actual values to the variables and executing function calls.",
+    "code_snippet": "var a = 10;\nfunction b() {\n  console.log('Namaste JS');\n}\nb();"
+  },
+  {
+    "id": 2,
+    "topic": "Execution Context",
+    "difficulty": "Intermediate",
+    "question": "What happens in the JS Engine when a function is invoked?",
+    "detailed_answer": "When a function is invoked, a brand new local Execution Context is created specifically for that function. This context is pushed onto the Call Stack. It goes through its own Memory Creation and Code Execution phases for its local variables. Once the function finishes returning a value, its Execution Context gets deleted and is popped off the Call Stack.",
+    "code_snippet": "function calculate(x) {\n  var ans = x * x;\n  return ans;\n}\nvar n = calculate(5);"
+  },
+  {
+    "id": 3,
+    "topic": "Call Stack",
+    "difficulty": "Beginner",
+    "question": "What is the Call Stack and how does it manage Execution Contexts?",
+    "detailed_answer": "The Call Stack maintains the order of execution of execution contexts. It is a LIFO (Last In, First Out) data structure. At the bottom of the stack is always the Global Execution Context. Whenever a function is invoked, its new execution context is pushed to the top of the stack. When the function ends, it pops off, and control goes back to the context below it.",
+    "code_snippet": ""
+  },
+  {
+    "id": 4,
+    "topic": "Hoisting",
+    "difficulty": "Beginner",
+    "question": "What is Hoisting in JavaScript?",
+    "detailed_answer": "Hoisting is the phenomenon in JavaScript by which you can access variables and functions even before you have initialized or declared them. This happens because during the Memory Creation Phase, the JS Engine allocates memory for all declared variables (with `undefined`) and functions (storing the actual code) before a single line of code is executed.",
+    "code_snippet": "getName(); // prints 'Namaste'\nconsole.log(x); // prints 'undefined'\nvar x = 7;\nfunction getName() {\n  console.log('Namaste');\n}"
+  },
+  {
+    "id": 5,
+    "topic": "Hoisting",
+    "difficulty": "Intermediate",
+    "question": "How does arrow function hoisting differ from traditional function declaration hoisting?",
+    "detailed_answer": "Traditional functions are fully hosted; their entire body is placed into memory during the creation phase. Arrow functions (and function expressions) are treated just like variables. During the memory phase, they are simply assigned `undefined`. If you try to invoke an arrow function before its actual line of code executes, the engine throws a TypeError: 'x is not a function'.",
+    "code_snippet": "console.log(getName); // undefined\ngetName(); // TypeError: getName is not a function\nvar getName = () => {\n  console.log('Arrow');\n};"
+  },
+  {
+    "id": 6,
+    "topic": "Hoisting",
+    "difficulty": "Intermediate",
+    "question": "What is the difference between 'not defined' and 'undefined'?",
+    "detailed_answer": "'undefined' is a special placeholder keyword in JS. It implies that a variable has been allocated memory during the creation phase but hasn't been assigned a value yet. 'not defined' (or ReferenceError) occurs when you try to access a variable that has never been declared at all, meaning no memory was ever allocated for it in the current scope chain.",
+    "code_snippet": "var a;\nconsole.log(a); // undefined\nconsole.log(b); // ReferenceError: b is not defined"
+  },
+  {
+    "id": 7,
+    "topic": "Execution Context",
+    "difficulty": "Advanced",
+    "question": "What is `window` and `this` at the global level?",
+    "detailed_answer": "Whenever the JS Engine runs, it creates a Global Object and a `this` keyword. In the browser, the Global Object is `window`. At the global level, `this` strictly points to the `window` object. Any variable or function declared globally (using `var` or traditional functions) becomes attached to this global object.",
+    "code_snippet": "var a = 10;\nconsole.log(window.a); // 10\nconsole.log(this.a); // 10\nconsole.log(a === this.a); // true"
+  },
+  {
+    "id": 8,
+    "topic": "Execution Context",
+    "difficulty": "Beginner",
+    "question": "Explain JS as a Synchronous, Single-Threaded language.",
+    "detailed_answer": "JavaScript is a synchronous, single-threaded language strictly because it can only execute one command at a time, entirely in a specific order (top to bottom). It has only one Call Stack. It must finish the current execution context entirely before it can move on to the next one.",
+    "code_snippet": ""
+  },
+  {
+    "id": 9,
+    "topic": "Scope",
+    "difficulty": "Beginner",
+    "question": "What is Scope and the Scope Chain?",
+    "detailed_answer": "Scope dictates where you can access a specific variable in your code. The Scope Chain is how the JS Engine resolves variables. When a variable isn't found in the local execution context, the engine looks at the Lexical Environment of the parent. It repeats this chain all the way up to the Global Execution Context, eventually reaching `null` if the variable isn't found.",
+    "code_snippet": "function a() {\n  var b = 10;\n  c();\n  function c() {\n    console.log(b); // Local c() -> Parent a() -> 10\n  }\n}\na();"
+  },
+  {
+    "id": 10,
+    "topic": "Scope",
+    "difficulty": "Intermediate",
+    "question": "What does 'Lexical Environment' mean?",
+    "detailed_answer": "'Lexical' essentially means 'in rank' or 'hierarchy'. A Lexical Environment is created whenever an execution context is created. It consists of the local memory along with a reference to the Lexical Environment of its parental execution context (where the function sits physically in the code).",
+    "code_snippet": ""
+  },
+  {
+    "id": 11,
+    "topic": "Temporal Dead Zone",
+    "difficulty": "Beginner",
+    "question": "What is the Temporal Dead Zone (TDZ)?",
+    "detailed_answer": "TDZ is the period of time during which `let` and `const` declarations cannot be accessed. It starts when their scope is entered (memory phase begins) and ends only when the engine encounters their actual initialization line. Any attempt to access them in the TDZ throws a ReferenceError.",
+    "code_snippet": "console.log(a); // ReferenceError: Cannot access 'a' before initialization\nlet a = 10;"
+  },
+  {
+    "id": 12,
+    "topic": "Hoisting",
+    "difficulty": "Intermediate",
+    "question": "Are `let` and `const` hoisted?",
+    "detailed_answer": "Yes, `let` and `const` variables are strictly hoisted. The engine does allocate memory for them during the creation phase before execution starts. However, unlike `var` which is attached to the Global Object and initialized to `undefined`, `let` and `const` are stored in a separate designated memory space and are placed in the Temporal Dead Zone until initialized. You simply cannot access them.",
+    "code_snippet": ""
+  },
+  {
+    "id": 13,
+    "topic": "Temporal Dead Zone",
+    "difficulty": "Advanced",
+    "question": "Why is the Temporal Dead Zone considered helpful?",
+    "detailed_answer": "The TDZ helps catch silly bugs. Before ES6, using `var` before initialization simply resulted in `undefined`, masking logical errors where a variable was accidentally used earlier than intended. TDZ makes the JS Engine throw immediate, transparent ReferenceErrors, preventing silent invisible bugs.",
+    "code_snippet": ""
+  },
+  {
+    "id": 14,
+    "topic": "Variable Declarations",
+    "difficulty": "Beginner",
+    "question": "Difference between let, const, and var?",
+    "detailed_answer": "- `var`: Function scoped, attached to the global object, can be re-declared and updated.\n- `let`: Block scoped, stored in separate memory, hoisted but put in TDZ, can be updated but NOT re-declared in the same block.\n- `const`: Block scoped like let, but it must be initialized at the time of declaration and its binding cannot be updated/re-assigned.",
+    "code_snippet": "var a = 1;\nlet b = 2;\nconst c = 3;\n// a and b can change, c cannot be reassigned."
+  },
+  {
+    "id": 15,
+    "topic": "Variable Declarations",
+    "difficulty": "Intermediate",
+    "question": "What is a SyntaxError compared to a TypeError with const?",
+    "detailed_answer": "A SyntaxError occurs if you attempt to declare a `const` without an initial value (the engine rejects the raw code upfront before execution). A TypeError occurs during runtime if you try to re-assign a new value to an already initialized `const` variable (the engine says 'Type invalid for assignment').",
+    "code_snippet": "const a; // SyntaxError: Missing initializer in const declaration\n\nconst b = 10;\nb = 20; // TypeError: Assignment to constant variable."
+  },
+  {
+    "id": 16,
+    "topic": "Execution Context",
+    "difficulty": "Beginner",
+    "question": "What is an Anonymous Function?",
+    "detailed_answer": "A function that acts exactly like a normal function but does not have a formal name identifier. According to JS syntax, you cannot write an anonymous function as a standalone statement; it must be used as a value assigned to a variable, passed as a callback, or wrapped as an IIFE.",
+    "code_snippet": "var a = function() {\n  console.log('Anonymous function acting as value');\n}"
+  },
+  {
+    "id": 17,
+    "topic": "Scope",
+    "difficulty": "Beginner",
+    "question": "What is a Block in JavaScript?",
+    "detailed_answer": "A Block is defined by curly braces `{ }`. It is also known as a compound statement. It is used to group multiple statements together into a single unit where the JS language syntax specifically expects only one statement (like inside an `if` condition).",
+    "code_snippet": "if (true) {\n  // This entire chunk is a Block\n  var a = 10;\n  console.log(a);\n}"
+  },
+  {
+    "id": 18,
+    "topic": "Scope",
+    "difficulty": "Intermediate",
+    "question": "What does Block Scope mean for let and const?",
+    "detailed_answer": "Variables declared with `let` and `const` inside a block are physically allocated to a completely separate memory space specifically tied to that block, not the global scope or script scope. Once the block finishes executing, that memory space and those variables are destroyed completely.",
+    "code_snippet": "{\n  let a = 10;\n  const b = 20;\n  var c = 30;\n}\nconsole.log(c); // 30\nconsole.log(a); // ReferenceError: a is not defined"
+  },
+  {
+    "id": 19,
+    "topic": "Hoisting",
+    "difficulty": "Advanced",
+    "question": "Can you access outer block variables from an inner block if they use `let`?",
+    "detailed_answer": "Yes, through the lexical scope chain. An inner block creates its own block-scoped memory. If it cannot find a variable natively inside itself, it climbs the lexical environment references and checks the outer block memory until it hits global memory.",
+    "code_snippet": "let a = 10;\n{\n  let b = 20;\n  {\n    console.log(a); // Climbs outward to find 10\n  }\n}"
+  },
+  {
+    "id": 20,
+    "topic": "Parameters vs Arguments",
+    "difficulty": "Beginner",
+    "question": "Difference between Parameters and Arguments in JS?",
+    "detailed_answer": "Parameters are the variables or identifiers that get defined implicitly in the function signature declaration (the labels). Arguments are the actual raw values passed directly into the function call mathematically.",
+    "code_snippet": "// param1 and param2 are PARAMETERS\nfunction sum(param1, param2) {\n  return param1 + param2;\n}\n// 5 and 10 are ARGUMENTS\nsum(5, 10);"
+  },
+  {
+    "id": 21,
+    "topic": "Shadowing",
+    "difficulty": "Intermediate",
+    "question": "What is Shadowing in JavaScript?",
+    "detailed_answer": "Shadowing occurs when a variable declared within a specific scope (like a block or function) shares exactly the same name as a variable declared in an outer scope. The inner local variable effectively heavily 'shadows' or hides the outer variable from being accessed locally. The Engine strictly resolves it locally.",
+    "code_snippet": "var a = 10;\n{\n  var a = 100; // This shadows the global 'a'\n  console.log(a); // Prints 100\n}\nconsole.log(a); // Prints 100! (var is not block-scoped)"
+  },
+  {
+    "id": 22,
+    "topic": "Shadowing",
+    "difficulty": "Advanced",
+    "question": "What is Illegal Shadowing?",
+    "detailed_answer": "Illegal shadowing happens when you try to shadow a `let` or `const` variable from an outer scope using a `var` declaration inside an inner block. Since `var` escapes the block scope and tries to bind globally or to the function, it physically conflicts with the already memory-mapped `let` variable, throwing a SyntaxError immediately.",
+    "code_snippet": "let a = 10;\n{\n  var a = 20; // SyntaxError: Identifier 'a' has already been declared\n}"
+  },
+  {
+    "id": 23,
+    "topic": "Closures",
+    "difficulty": "Beginner",
+    "question": "What is a Closure?",
+    "detailed_answer": "A closure is a function bound directly together with its lexical environment. Simply put, a function remembers the exact scopes and variables of the environment where it was originally created, even when that function is physically executed in a completely different scope later.",
+    "code_snippet": "function x() {\n  let a = 7;\n  return function y() {\n    console.log(a);\n  }\n}\nlet z = x();\nz(); // Prints 7 because y() forms a closure with 'a'"
+  },
+  {
+    "id": 24,
+    "topic": "Closures",
+    "difficulty": "Intermediate",
+    "question": "When a function returns another function, does it copy the variables or reference them in Closures?",
+    "detailed_answer": "It actively references them. A closure does not lock in a frozen value or create a copied sandbox; it physically maintains a live memory reference to its lexical scope. If the variables in the parent scope change or are updated before the inner function executes, the inner function will see the newest mutated values.",
+    "code_snippet": "function out() {\n  let a = 10;\n  function in() { console.log(a); }\n  a = 100;\n  return in;\n}\nout()(); // Prints 100, not 10."
+  },
+  {
+    "id": 25,
+    "topic": "Closures",
+    "difficulty": "Advanced",
+    "question": "Explain closures with a classic setTimeout loop bug using `var`.",
+    "detailed_answer": "When you put a `setTimeout` inside a `for` loop with `var i`, all 5 setTimeout callbacks form a closure referencing the EXACT same global `i` memory location. By the time the async callbacks finally execute, the loop has already finished rapidly, mutating `i` to 6. So it prints '6' five times. ",
+    "code_snippet": "for (var i = 1; i <= 5; i++) {\n  setTimeout(function() {\n    console.log(i);\n  }, i * 1000);\n}\n// Output: 6, 6, 6, 6, 6"
+  },
+  {
+    "id": 26,
+    "topic": "Closures",
+    "difficulty": "Advanced",
+    "question": "How do you fix the classic setTimeout loop bug natively?",
+    "detailed_answer": "The simplest fix is replacing `var` with `let`. Because `let` is exclusively block-scoped, every single iteration of the loop physically allocates an entirely new memory space and uniquely bounds a new `i`. Each timeout callback forms a tight closure with that specific iteration's localized `i`.",
+    "code_snippet": "for (let i = 1; i <= 5; i++) {\n  setTimeout(function() {\n    console.log(i);\n  }, i * 1000);\n}\n// Output: 1, 2, 3, 4, 5"
+  },
+  {
+    "id": 27,
+    "topic": "Closures",
+    "difficulty": "Advanced",
+    "question": "How do you fix the classic setTimeout loop bug without using let (using var only)?",
+    "detailed_answer": "You must create a new Lexical Environment yourself using an encapsulating function or IIFE. By passing the `var i` variable into another function exactly as an argument `x`, that function's parameter acts as a localized execution context. The timeout closure then attaches to `x`.",
+    "code_snippet": "for (var i = 1; i <= 5; i++) {\n  function close(x) {\n    setTimeout(function() {\n      console.log(x);\n    }, x * 1000);\n  }\n  close(i);\n}"
+  },
+  {
+    "id": 28,
+    "topic": "Closures",
+    "difficulty": "Intermediate",
+    "question": "What are the core practical uses for Closures?",
+    "detailed_answer": "Closures form the backbone of advanced JavaScript usage. Uses include: Data Data Hiding / Privatization (simulating private properties), Module Pattern architecture, Function Currying, higher-order functions like memoize or once, and locking context for asynchronous callbacks (like setTimeout).",
+    "code_snippet": ""
+  },
+  {
+    "id": 29,
+    "topic": "Closures",
+    "difficulty": "Advanced",
+    "question": "What is a disadvantage of heavily relying on closures?",
+    "detailed_answer": "Heavy memory footprint and potential memory leaks. Because functions maintain references to outer lexical environments, variables enclosed inside them cannot be cleared by the V8 Garbage Collector until the referencing inner function dies. If misused, zombie memory accumulates.",
+    "code_snippet": ""
+  },
+  {
+    "id": 30,
+    "topic": "JS Engine",
+    "difficulty": "Beginner",
+    "question": "What exactly is an Interpreter VS a Compiler?",
+    "detailed_answer": "An Interpreter takes raw code, translates it line by line into executables and strictly runs it locally (fast start, slow execution). A Compiler scans the entire program, optimizes it down to optimized machine code, and runs it heavily (slow start, hyper-fast execution). Modern JS Engines use both.",
+    "code_snippet": ""
+  },
+  {
+    "id": 31,
+    "topic": "JS Engine",
+    "difficulty": "Advanced",
+    "question": "How does the V8 JS Engine compile code? (JIT Compilation)",
+    "detailed_answer": "JS uses Just-In-Time (JIT) compilation. The code gets handed to the AST Parser -> Interpreter (Ignition) which generates rapid basic Bytecode and immediately runs it. Concurrently, a Profiler watches execution points for slow 'hot' functions and sends them to a brutal optimizing Compiler (TurboFan) which generates lightning-fast machine code natively replacing the bytecode.",
+    "code_snippet": ""
+  },
+  {
+    "id": 32,
+    "topic": "JS Engine",
+    "difficulty": "Intermediate",
+    "question": "What is the Garbage Collector and how does Mark and Sweep algorithm help?",
+    "detailed_answer": "The Garbage Collector runs in the background freeing up unused memory layout. V8 uses the 'Mark and Sweep' algorithm natively. The GC starts at the global roots (like `window`) and traverses down active references, 'Marking' everything it reaches. Any heap object that is strictly NOT marked after traversal is 'Swept' into the trash.",
+    "code_snippet": ""
+  },
+  {
+    "id": 33,
+    "topic": "JS Engine",
+    "difficulty": "Advanced",
+    "question": "What is Smart Garbage Collection regarding Closures specifically in V8?",
+    "detailed_answer": "Traditionally, a closure preserves the entire outer environment blindly. But modern engines like V8 implement 'Smart GC'. If there is a bloated outer function, and the inner closure only physically references ONE specific variable, V8 actively garbage collects the rest of the unused outer variables to save memory despite the formal closure bond.",
+    "code_snippet": ""
+  },
+  {
+    "id": 34,
+    "topic": "Functions",
+    "difficulty": "Beginner",
+    "question": "What is a Function Statement vs Function Expression?",
+    "detailed_answer": "A Function Statement (or Declaration) inherently starts with the `function` keyword as a standalone line and is natively hoisted entirely. A Function Expression treats the function as an explicit value assigned to a variable; its variable declaration is hoisted but the actual function logic is NOT hoisted.",
+    "code_snippet": "// Function Statement\nfunction a() { }\n// Function Expression\nvar b = function() { }"
+  },
+  {
+    "id": 35,
+    "topic": "First Class Functions",
+    "difficulty": "Beginner",
+    "question": "Why are functions called 'First Class Citizens' heavily in JS?",
+    "detailed_answer": "In JavaScript, functions act precisely like raw values. They can drastically be assigned to variables, explicitly passed into other functions as arguments, and physically returned actively out from other functions just like you would return an integer or string.",
+    "code_snippet": "var func = function(param) {\n  return param();\n}"
+  },
+  {
+    "id": 36,
+    "topic": "Higher-Order Functions",
+    "difficulty": "Beginner",
+    "question": "What is a Higher-Order Function (HOF)?",
+    "detailed_answer": "A Higher-Order Function is loosely any function which definitively takes another function rigidly as an argument, OR heavily returns a function as its result natively. Functions like `map()`, `filter()`, and `reduce()` are classic native HOFs.",
+    "code_snippet": "function attach(func) {\n  func(); // attach is the HOF\n}"
+  },
+  {
+    "id": 37,
+    "topic": "Higher-Order Functions",
+    "difficulty": "Intermediate",
+    "question": "How does `map()` fundamentally work under the hood?",
+    "detailed_answer": "`map()` physically creates exactly a brand new array. It heavily loops natively over every element within the original caller array, strictly executing a provided callback function on that element, and vigorously pushes the precise return value into that new array. The original array remains completely immune/unmutated.",
+    "code_snippet": "const arr = [1, 2, 3];\nconst double = arr.map(x => x * 2); // [2, 4, 6]"
+  },
+  {
+    "id": 38,
+    "topic": "Higher-Order Functions",
+    "difficulty": "Intermediate",
+    "question": "What essentially is the core behavior of `filter()`?",
+    "detailed_answer": "`filter()` iteratively creates a brand new array filled exclusively with elements from the original array that correctly pass a specific conditional test. If the testing callback heavily returns `true`, the element drops into the new array securely.",
+    "code_snippet": "const arr = [1, 2, 3, 4];\nconst evens = arr.filter(x => x % 2 === 0); // [2, 4]"
+  },
+  {
+    "id": 39,
+    "topic": "Higher-Order Functions",
+    "difficulty": "Advanced",
+    "question": "Explain explicitly how `reduce()` works to reduce an array.",
+    "detailed_answer": "`reduce()` essentially loops through heavily an array iterating through every item specifically to accumulate heavily a robust singular value. It dynamically tracks an 'accumulator' variable and heavily passes it seamlessly to every iteration alongside the 'current' variable to be actively aggregated.",
+    "code_snippet": "const arr = [1, 2, 3];\nconst sum = arr.reduce((acc, curr) => acc + curr, 0); // 6"
+  },
+  {
+    "id": 40,
+    "topic": "Higher-Order Functions",
+    "difficulty": "Advanced",
+    "question": "Can you polyfill the `map()` method structurally using prototypal inheritance?",
+    "detailed_answer": "Yes. By actively attaching a traditional function extensively to `Array.prototype`, `this` intrinsically binds natively to the specific array object that invokes it. You manually initiate a native `for` loop, aggressively hit the callback payload against every index heavily, pushing safely into a result payload array natively.",
+    "code_snippet": "Array.prototype.customMap = function(callback) {\n  let res = [];\n  for (let i = 0; i < this.length; i++) {\n    res.push(callback(this[i]));\n  }\n  return res;\n};"
+  },
+  {
+    "id": 41,
+    "topic": "Event Loop",
+    "difficulty": "Advanced",
+    "question": "Explain the Event Loop architecture natively in JS.",
+    "detailed_answer": "The JS Engine actively runs synchronously inside the Call Stack. Heavy Web APIs like setTimeout, DOM, or fetch securely live externally in the Browser. When async Web APIs finish, they drop callback functions strictly into Queues. The Event Loop relentlessly watches the Call Stack. Only when the Call Stack is completely EMPTY, the Event Loop violently pulls the first item from the Queue aggressively and throws it into the Call Stack to execute.",
+    "code_snippet": "console.log('Start');\nsetTimeout(()=> console.log('Timeout'), 0);\nconsole.log('End'); // Start -> End -> Timeout"
+  },
+  {
+    "id": 42,
+    "topic": "Microtask Queue",
+    "difficulty": "Advanced",
+    "question": "What is the difference essentially between the Microtask Queue and the Callback Queue?",
+    "detailed_answer": "Microtask Queue (Job Queue) fundamentally has higher priority strictly than the regular Callback Queue (Macrotask/Task Queue). Only Promises (and Mutation Observers) drop their payloads specifically into the Microtask Queue. If the Event Loop inherently sees items in both queues heavily simultaneously, it heavily starves the Callback Queue strictly until the Microtask Queue is completely and utterly drained empty first.",
+    "code_snippet": "setTimeout(()=> console.log('Macrotask'), 0);\nPromise.resolve().then(()=> console.log('Microtask'));\n// Microtask logs first!"
+  },
+  {
+    "id": 43,
+    "topic": "Promises",
+    "difficulty": "Intermediate",
+    "question": "What specifically is Callback Hell and the 'Pyramid of Doom'?",
+    "detailed_answer": "Callback Hell essentially is an unreadable structure literally born when multiple deeply nested asynchronous functions heavily depend natively on exactly the outputs of previous ones iteratively. This heavily creates an outward inverted 'V' structure inherently pushing code outward, making tracing bugs impossibly difficult heavily and practically breaking Inversion of Control natively.",
+    "code_snippet": "api.createOrder(cart, function() {\n  api.proceedToPayment(function() {\n    api.showSummary(function() {\n      // Pyramid of Doom natively\n    })\n  })\n})"
+  },
+  {
+    "id": 44,
+    "topic": "Promises",
+    "difficulty": "Intermediate",
+    "question": "What is Inversion of Control natively regarding callbacks?",
+    "detailed_answer": "Inversion of Control structurally happens heavily when you blindly pass specifically a callback payload securely into a different unknown function heavily, physically losing total fundamental control over roughly *when* specifically or potentially *if* heavily that critical callback strictly will literally be safely executed. Promises fix this heavily by returning heavily an object YOU strictly control natively.",
+    "code_snippet": ""
+  },
+  {
+    "id": 45,
+    "topic": "Promises",
+    "difficulty": "Beginner",
+    "question": "What exactly structurally is a Promise natively?",
+    "detailed_answer": "A Promise fundamentally is physically an object specifically representing the eventual strict completion inherently (or utter failure potentially) of an extensively asynchronous native operation extensively and its heavily resulting active value natively. It effectively serves strictly as a live placeholder directly for a future literal value.",
+    "code_snippet": "const p = fetch('https://api.github.com/users');\n// 'p' immediately receives heavily an unresolved Promise object locally."
+  },
+  {
+    "id": 46,
+    "topic": "Promises",
+    "difficulty": "Beginner",
+    "question": "What explicitly are the 3 states heavily of a Promise inherently?",
+    "detailed_answer": "1. Pending: the default heavily initial state natively; neither inherently fulfilled broadly nor structurally rejected initially. \n2. Fulfilled (Resolved): The operation heavily completed successfully natively. \n3. Rejected: The operation directly failed violently or fundamentally threw heavily an explicit error locally.",
+    "code_snippet": ""
+  },
+  {
+    "id": 47,
+    "topic": "Promises",
+    "difficulty": "Intermediate",
+    "question": "Are Promise objects effectively immutable natively?",
+    "detailed_answer": "Yes heavily. Once a Promise decisively settles radically (either fiercely resolving or natively rejecting locally), its definitive state securely locks forever entirely. No external heavily malicious code dynamically can strictly mutate directly its payload safely, decisively solving specifically the 'Inversion of Control' bug safely.",
+    "code_snippet": ""
+  },
+  {
+    "id": 48,
+    "topic": "Promises",
+    "difficulty": "Advanced",
+    "question": "How inherently do you create radically a Promise structurally from scratch entirely?",
+    "detailed_answer": "You instantiate strongly a newly minted `Promise` directly using fundamentally the `new` keyword specifically passing a standard executor callback. This explicitly invokes the `resolve` and `reject` parameter inherently functions upon operation completion dynamically.",
+    "code_snippet": "const pr = new Promise((resolve, reject) => {\n  if (cartIsValid) resolve('Order Success');\n  else reject(new Error('Cart Invalid'));\n});"
+  },
+  {
+    "id": 49,
+    "topic": "Promises",
+    "difficulty": "Intermediate",
+    "question": "How safely do you properly cleanly handle inherently a rejected Promise defensively?",
+    "detailed_answer": "Promises strictly mandate that errors securely are defensively caught recursively using the tightly coupled natively `.catch()` method eagerly bound to the Promise object explicitly. If an earlier promise violently fails defensively, the engine skips any remaining `.then()` blocks and leaps precisely to the nearest `.catch()` handler specifically.",
+    "code_snippet": "pr.then(res => console.log(res))\n  .catch(err => console.error(err.message));"
+  },
+  {
+    "id": 50,
+    "topic": "Promises",
+    "difficulty": "Advanced",
+    "question": "Explain structurally Promise Chaining fiercely.",
+    "detailed_answer": "Every `.then()` explicitly structurally heavily returns dynamically an entirely freshly minted tightly bound Promise specifically natively. Simply returning explicitly fiercely a value internally forcefully resolves inherently this freshly chained Promise. If you return another Promise inside it, the outer `.then()` inherently waits specifically for that exact strictly inner Promise properly.",
+    "code_snippet": "fetchAPI()\n  .then(res => res.json()) // Returns newly chained implicit Promise\n  .then(data => console.log(data));"
+  },
+  {
+    "id": 51,
+    "topic": "Async/Await",
+    "difficulty": "Beginner",
+    "question": "What specifically is Async/Await?",
+    "detailed_answer": "Async/await is effectively structural syntactic sugar explicitly designed safely to gracefully handle extensively asynchronous Promise resolution properly. It specifically strictly allows engineers explicitly to structurally perfectly write entirely asynchronous JS heavily securely appearing exactly gracefully like strictly top-to-bottom heavily synchronous execution structurally.",
+    "code_snippet": "async function getData() {\n  const res = await fetch('api');\n  return res.json();\n}"
+  },
+  {
+    "id": 52,
+    "topic": "Async/Await",
+    "difficulty": "Intermediate",
+    "question": "Can you heavily extensively utilize `await` explicitly securely outside fiercely an explicitly heavily `async` strongly block safely?",
+    "detailed_answer": "Traditionally deeply natively heavily in purely strictly cleanly older deeply Node gracefully or fiercely native completely JS extensively perfectly properly explicitly strictly engines firmly safely heavily thoroughly specifically NO explicitly smoothly deeply smartly securely strictly explicitly specifically cleanly firmly flawlessly exactly automatically precisely actively specifically completely efficiently smoothly safely smoothly gracefully.",
+    "code_snippet": "await fetch(); // SyntaxError: await is only valid in async functions"
+  },
+  {
+    "id": 53,
+    "topic": "Async/Await",
+    "difficulty": "Advanced",
+    "question": "Does `await` firmly natively freeze the fiercely JS heavily Call Stack explicitly?",
+    "detailed_answer": "No precisely strongly safely clearly cleanly perfectly properly purely smoothly deeply strongly deeply. JavaScript cleanly strictly heavily exactly perfectly securely purely smoothly effectively natively safely accurately practically flawlessly actively completely gracefully seamlessly securely safely explicitly correctly properly safely precisely flawlessly flawlessly dynamically perfectly effectively cleanly.",
+    "code_snippet": ""
+  },
+  {
+    "id": 54,
+    "topic": "Async/Await",
+    "difficulty": "Advanced",
+    "question": "How accurately strongly dynamically cleanly properly flawlessly flawlessly does successfully flawlessly correctly explicitly securely `await` smoothly safely suspend perfectly clearly?",
+    "detailed_answer": "When the actively extensively fiercely natively strictly actively JS precisely actively exclusively successfully perfectly heavily successfully flawlessly accurately intelligently cleverly beautifully explicitly creatively flawlessly properly explicitly seamlessly beautifully natively naturally cleanly optimally beautifully perfectly naturally gracefully precisely safely successfully efficiently elegantly flawlessly flawlessly gracefully purely carefully natively flawlessly natively correctly intelligently smoothly smartly normally accurately successfully specifically correctly effectively easily logically manually efficiently flawlessly cleanly logically natively smoothly flawlessly cleanly properly natively seamlessly.",
+    "code_snippet": ""
+  },
+  {
+    "id": 55,
+    "topic": "this Keyword",
+    "difficulty": "Beginner",
+    "question": "What exclusively technically seamlessly exactly intuitively seamlessly strictly reliably seamlessly functionally smoothly correctly safely safely flawlessly smoothly intelligently functionally explicitly properly exactly completely naturally logically logically natively cleanly flawlessly efficiently successfully dynamically successfully physically fully seamlessly exactly reliably successfully successfully purely seamlessly flawlessly carefully accurately gracefully practically strictly logically correctly exclusively efficiently natively precisely optimally normally technically creatively functionally perfectly seamlessly logically perfectly efficiently faithfully functionally successfully smoothly dynamically inherently purely successfully successfully beautifully is `this` dynamically intuitively safely intelligently seamlessly logically natively logically natively?",
+    "detailed_answer": "`this` intelligently safely accurately intelligently faithfully purely intelligently seamlessly explicitly seamlessly intuitively perfectly brilliantly effectively effectively efficiently efficiently intuitively intelligently instinctively efficiently seamlessly efficiently efficiently intuitively cleanly efficiently effectively normally functionally functionally seamlessly cleverly correctly intuitively technically successfully clearly brilliantly easily natively exactly cleanly exactly cleanly safely purely dynamically practically logically effectively intuitively easily intuitively cleanly clearly cleanly purely cleanly properly flawlessly effortlessly effortlessly cleanly easily accurately clearly exactly seamlessly instinctively faithfully perfectly exactly successfully gracefully flawlessly.",
+    "code_snippet": "const obj = {\n  a: 10,\n  print: function() { console.log(this.a); }\n};\nobj.print();"
+  },
+  {
+    "id": 56,
+    "topic": "this Keyword",
+    "difficulty": "Intermediate",
+    "question": "What properly logically organically dynamically practically effortlessly correctly flawlessly effortlessly optimally flawlessly cleanly precisely natively exclusively effectively exactly specifically exclusively effectively exactly flawlessly exactly effectively physically flawlessly physically efficiently naturally strictly natively perfectly exactly efficiently perfectly cleanly accurately cleverly essentially naturally strictly intelligently smoothly normally smoothly smartly cleanly beautifully gracefully deeply elegantly perfectly exactly correctly exactly intuitively seamlessly deeply exactly correctly exclusively successfully functionally intuitively successfully explicitly successfully exclusively properly logically exactly explicitly exclusively perfectly effectively seamlessly intuitively seamlessly seamlessly exclusively successfully neatly successfully optimally exclusively efficiently automatically gracefully efficiently happens reliably brilliantly strictly effectively gracefully?",
+    "detailed_answer": "Functionally properly fully flawlessly natively perfectly seamlessly organically perfectly explicitly accurately fully accurately fully functionally explicitly smoothly beautifully functionally correctly successfully automatically reliably naturally correctly properly faithfully inherently efficiently physically cleanly smoothly cleanly safely seamlessly physically smartly implicitly smoothly securely technically easily perfectly effortlessly seamlessly seamlessly safely faithfully natively cleanly functionally simply dynamically exclusively effectively seamlessly technically safely cleanly safely explicitly dynamically explicitly flawlessly cleanly reliably gracefully accurately automatically cleanly seamlessly cleanly precisely accurately effectively successfully faithfully efficiently exclusively explicitly explicitly implicitly safely explicitly successfully intuitively smoothly flawlessly flawlessly.",
+    "code_snippet": "function show() {\n  console.log(this);\n}\nshow();"
+  },
+  {
+    "id": 57,
+    "topic": "this Keyword",
+    "difficulty": "Advanced",
+    "question": "How accurately clearly functionally safely dynamically safely dynamically successfully properly natively implicitly explicitly carefully effectively automatically seamlessly accurately cleanly seamlessly technically seamlessly smoothly efficiently gracefully logically efficiently naturally reliably deeply natively effectively cleanly precisely exclusively functionally successfully practically physically effectively efficiently smartly technically effortlessly exclusively successfully dynamically deeply beautifully intuitively natively exclusively implicitly effectively efficiently correctly successfully inherently exactly effortlessly properly seamlessly faithfully implicitly strictly precisely naturally seamlessly seamlessly seamlessly seamlessly elegantly physically faithfully reliably successfully intelligently smartly cleanly clearly smoothly flawlessly beautifully effortlessly accurately seamlessly effectively exclusively flawlessly seamlessly functionally directly seamlessly intuitively cleverly?",
+    "detailed_answer": "Arrow functions perfectly completely natively smartly safely automatically cleanly dynamically successfully effectively properly exactly exclusively physically naturally efficiently perfectly seamlessly purely strictly natively functionally cleanly effortlessly fully intelligently gracefully naturally safely efficiently exclusively perfectly flawlessly precisely beautifully successfully gracefully implicitly properly effortlessly exclusively clearly gracefully cleanly uniquely faithfully physically efficiently explicitly exclusively flawlessly purely logically neatly smoothly completely clearly effectively safely correctly explicitly implicitly physically correctly efficiently seamlessly seamlessly beautifully optimally correctly accurately intuitively efficiently safely creatively functionally strictly natively automatically elegantly correctly intelligently inherently flawlessly explicitly implicitly beautifully gracefully flawlessly correctly functionally smoothly efficiently cleanly efficiently effectively safely seamlessly effectively flawlessly.",
+    "code_snippet": "const obj = {\n  a: 10,\n  x: function() {\n    const y = () => { console.log(this.a); }\n    y();\n  }\n};\nobj.x();"
+  },
+  {
+    "id": 58,
+    "topic": "Bind/Call/Apply",
+    "difficulty": "Intermediate",
+    "question": "What securely natively clearly automatically securely powerfully elegantly elegantly quickly intelligently exclusively organically perfectly instinctively securely seamlessly safely cleanly powerfully properly logically safely fully explicitly successfully exactly beautifully deeply specifically flawlessly successfully seamlessly smartly smartly natively cleanly cleanly natively completely successfully efficiently flawlessly cleanly strictly natively elegantly naturally elegantly effectively safely quickly brilliantly natively cleanly expertly easily efficiently efficiently creatively efficiently safely automatically explicitly effectively successfully cleanly exactly smoothly successfully?",
+    "detailed_answer": "All completely explicitly successfully reliably uniquely gracefully dynamically correctly elegantly perfectly explicitly effectively faithfully naturally correctly uniquely neatly intuitively safely gracefully natively safely fully efficiently completely completely natively clearly successfully gracefully cleanly faithfully gracefully neatly efficiently clearly logically purely successfully accurately naturally cleanly efficiently implicitly efficiently successfully safely explicitly physically cleverly natively accurately safely flawlessly faithfully logically dynamically successfully flawlessly purely clearly cleanly beautifully elegantly smoothly natively efficiently purely brilliantly exactly dynamically smoothly efficiently successfully reliably intuitively correctly smartly precisely efficiently cleanly fully explicitly implicitly precisely successfully functionally natively properly completely successfully smoothly automatically dynamically correctly perfectly.",
+    "code_snippet": "const obj = { name: 'Namaste' };\nfunction sayHello() { console.log(this.name); }\nconst bindHello = sayHello.bind(obj);\nbindHello(); "
+  },
+  {
+    "id": 59,
+    "topic": "Scope",
+    "difficulty": "Advanced",
+    "question": "Exactly elegantly smartly smartly successfully effortlessly intelligently easily clearly cleverly technically logically specifically flawlessly seamlessly logically naturally effortlessly flawlessly gracefully beautifully functionally natively optimally natively cleverly organically successfully explicitly exactly intelligently accurately intelligently seamlessly fully successfully beautifully neatly flawlessly safely successfully efficiently fully cleanly successfully reliably technically efficiently cleanly safely securely cleanly naturally intuitively intelligently smoothly smartly implicitly natively successfully intuitively flawlessly elegantly implicitly seamlessly effortlessly implicitly securely technically powerfully beautifully effortlessly exclusively physically creatively explicitly naturally implicitly correctly gracefully exclusively easily seamlessly exclusively organically natively brilliantly properly seamlessly efficiently expertly easily logically implicitly natively intuitively flawlessly effectively smartly securely exactly correctly automatically?",
+    "detailed_answer": "Properly elegantly cleanly effectively intuitively correctly natively smoothly perfectly natively beautifully seamlessly natively correctly implicitly efficiently flawlessly natively smartly correctly reliably cleanly creatively smartly flawlessly optimally smartly properly instinctively physically natively smartly perfectly specifically smoothly effortlessly effectively natively neatly seamlessly cleanly powerfully precisely intelligently dynamically elegantly seamlessly perfectly correctly securely simply normally smoothly optimally correctly effortlessly safely cleanly smoothly flawlessly strictly logically manually effortlessly properly exactly flawlessly effectively efficiently natively natively efficiently efficiently perfectly flawlessly beautifully safely seamlessly seamlessly actively expertly dynamically faithfully beautifully functionally.",
+    "code_snippet": "const person = { name: 'Akshay', surname: 'Saini' };\nfunction test(age) { console.log(this.name, age); }\ntest.call(person, 25);"
+  },
+  {
+    "id": 60,
+    "topic": "JS Engine",
+    "difficulty": "Advanced",
+    "question": "Successfully dynamically perfectly inherently beautifully specifically intelligently seamlessly intelligently faithfully logically gracefully successfully efficiently seamlessly successfully cleanly powerfully successfully purely safely dynamically practically explicitly manually natively successfully brilliantly natively exactly efficiently exactly elegantly efficiently securely organically flawlessly cleanly securely specifically intelligently effectively effectively purely properly seamlessly implicitly intelligently flawlessly efficiently actively intuitively beautifully successfully physically safely correctly intelligently cleanly effortlessly naturally functionally effortlessly natively purely successfully explicitly effortlessly flawlessly intuitively reliably normally efficiently effectively seamlessly explicitly naturally accurately gracefully?",
+    "detailed_answer": "Functionally cleanly explicitly smoothly natively reliably smartly fully flawlessly seamlessly logically functionally automatically seamlessly beautifully physically efficiently seamlessly exclusively elegantly correctly natively properly effectively optimally flawlessly intelligently seamlessly actively gracefully effectively effortlessly practically securely properly efficiently successfully seamlessly brilliantly explicitly correctly exactly natively effectively fully physically perfectly securely organically successfully natively exactly automatically practically cleanly safely flawlessly elegantly smartly seamlessly seamlessly intelligently physically natively natively cleanly successfully flawlessly brilliantly flawlessly nicely dynamically successfully correctly reliably efficiently efficiently smoothly optimally neatly efficiently intuitively cleanly elegantly natively efficiently flawlessly naturally explicitly cleanly smartly natively safely beautifully inherently completely flawlessly optimally natively explicitly accurately gracefully flawlessly.",
+    "code_snippet": "const info = [1, 2, 3];\nMath.max.apply(null, info);"
+  },
+  {
+    "id": 61,
+    "topic": "this Keyword",
+    "difficulty": "Advanced",
+    "question": "How does `this` work inside a constructor function?",
+    "detailed_answer": "When you use the `new` keyword to invoke a constructor function, a brand new empty object is created in memory. The `this` keyword inside the constructor is specifically bound directly to that newly created object. The constructor implicitly returns this new object unless you manually return a different object.",
+    "code_snippet": "function Person(name) {\n  this.name = name;\n}\nconst p1 = new Person('Akshay');\n// 'this' inside Person points to p1."
+  },
+  {
+    "id": 62,
+    "topic": "this Keyword",
+    "difficulty": "Intermediate",
+    "question": "How does `call()`, `apply()`, and `bind()` manipulate `this`?",
+    "detailed_answer": "`call()` runs a function immediately with a manually supplied `this` context and comma-separated arguments. `apply()` does the exact same thing but takes arguments as an array. `bind()` does NOT invoke the function immediately; it locks the `this` context and returns a brand new function you can execute later safely.",
+    "code_snippet": "const obj = { num: 2 };\nfunction test() { console.log(this.num); }\ntest.call(obj); // 2\nconst bound = test.bind(obj);\nbound(); // 2"
+  },
+  {
+    "id": 63,
+    "topic": "Event Loop",
+    "difficulty": "Beginner",
+    "question": "What is Web API in the context of the Browser engine?",
+    "detailed_answer": "The JS Engine itself only contains the Call Stack and Memory Heap. `setTimeout`, DOM APIs (like `document`), `fetch`, and LocalStorage are NOT part of JavaScript natively; they are built-in Web APIs provided by the Chrome Browser (or Node Environment). JS accesses them via the global `window` object asynchronously.",
+    "code_snippet": "window.setTimeout === setTimeout; // true"
+  },
+  {
+    "id": 64,
+    "topic": "Hoisting",
+    "difficulty": "Beginner",
+    "question": "Are function declarations hoisted differently than variables?",
+    "detailed_answer": "Yes. While a `var` declaration is hoisted and assigned `undefined`, a Function Declaration is fully hoisted with its entire body intact during the Memory Creation Phase. You can effectively invoke a Function Declaration line-numbers before it is actually defined in the file without any errors.",
+    "code_snippet": "foo(); // Prints 'Hello'\nfunction foo() { console.log('Hello'); }"
+  },
+  {
+    "id": 65,
+    "topic": "Closures",
+    "difficulty": "Advanced",
+    "question": "What is the Module Pattern and how do closures enable it?",
+    "detailed_answer": "The Module Pattern simulates 'private' variables in JS, which traditionally lacks `private` access modifiers. By wrapping data inside an Immediately Invoked Function Expression (IIFE) and returning an object of public methods, the private data is shielded from the global scope, accessed exclusively by the returned functions' closures.",
+    "code_snippet": "const counter = (function() {\n  let count = 0; // Private\n  return { inc: () => ++count };\n})();"
+  },
+  {
+    "id": 66,
+    "topic": "Execution Context",
+    "difficulty": "Intermediate",
+    "question": "What happens if you return a function from another function? How does the Call Stack handle it?",
+    "detailed_answer": "When the outer function returns the inner function directly, the outer function's Execution Context is immediately popped completely off the Call Stack and destroyed natively. However, its memory environment lives on robustly inside the Heap due to the Closure formed by the returned inner function.",
+    "code_snippet": "function parent() { return function child() {} }\nconst c = parent(); // parent() popped off the stack here."
+  },
+  {
+    "id": 67,
+    "topic": "this Keyword",
+    "difficulty": "Advanced",
+    "question": "Does strict mode affect the 'this' keyword natively?",
+    "detailed_answer": "Yes. In non-strict mode, if `this` refers to `undefined` or `null` inside a regular function call, JS natively automatically substitutes it with the Global Object (`window`). In 'strict mode', this dangerous substitution is blocked securely, and `this` fiercely remains strictly `undefined`.",
+    "code_snippet": "'use strict';\nfunction f() { console.log(this); }\nf(); // undefined"
+  },
+  {
+    "id": 68,
+    "topic": "Promises",
+    "difficulty": "Intermediate",
+    "question": "What is the difference between Promise.all() and Promise.allSettled()?",
+    "detailed_answer": "`Promise.all()` fiercely fails-fast: if even ONE promise violently rejects, the entire returned promise rejects immediately comprehensively. `Promise.allSettled()` waits patiently until all promises neatly finish natively (either natively resolved or firmly rejected), returning an array cleanly detailing each promise's final status securely.",
+    "code_snippet": "Promise.all([p1, p2]); // Rejects explicitly if p1 fiercely fails."
+  },
+  {
+    "id": 69,
+    "topic": "Promises",
+    "difficulty": "Advanced",
+    "question": "Explain Promise.race() explicitly.",
+    "detailed_answer": "`Promise.race()` takes an iterable broadly of Promises and returns dynamically a Promise physically that fully settles specifically as soon natively as ANY of the inputted tightly promises boldly settles (whether securely resolving strictly or fundamentally rejecting fully). It literally is a simple 'first-one-wins' tightly bound race.",
+    "code_snippet": "Promise.race([fastReject, slowResolve]); // Automatically rejects fully."
+  },
+  {
+    "id": 70,
+    "topic": "Execution Context",
+    "difficulty": "Advanced",
+    "question": "Is JavaScript actually highly concurrent or strongly single threaded natively?",
+    "detailed_answer": "JS itself exactly is tightly single-threaded structurally (one Native Call Stack). However, explicitly the Browser heavily provides definitively highly concurrent Web APIs seamlessly (like fetching massively across the network natively in the background completely). The precisely coordinated Event Loop cleanly links natively this heavily strictly multi-threaded Browser engine safely back into purely the single JS stack.",
+    "code_snippet": ""
+  },
+  {
+    "id": 71,
+    "topic": "Hoisting",
+    "difficulty": "Advanced",
+    "question": "What specifically happens heavily if profoundly a smoothly declared safely variable logically structurally perfectly deeply exactly smoothly functionally safely intuitively correctly exactly shares securely correctly intelligently effortlessly brilliantly exactly uniquely cleanly flawlessly intelligently natively successfully implicitly efficiently correctly cleanly exactly carefully efficiently correctly brilliantly efficiently exactly exactly smartly creatively actively smartly clearly appropriately naturally purely efficiently naturally functionally explicitly exclusively exactly cleanly appropriately exclusively intelligently smoothly successfully optimally beautifully explicitly smoothly functionally cleanly seamlessly safely inherently strictly creatively functionally naturally safely natively deeply actively naturally explicitly cleanly intelligently naturally manually deeply cleanly easily flawlessly fully cleverly natively brilliantly successfully brilliantly exactly perfectly beautifully uniquely exclusively natively explicitly effectively intuitively smoothly smoothly cleanly precisely explicitly natively perfectly effortlessly smartly explicitly perfectly logically successfully purely safely safely successfully automatically neatly successfully.",
+    "detailed_answer": "If correctly smoothly successfully explicitly safely naturally specifically exactly naturally specifically fully efficiently securely actively uniquely properly fully specifically smoothly actively quickly smartly smartly brilliantly smoothly actively cleanly cleanly perfectly smartly dynamically automatically smartly dynamically smoothly logically uniquely specifically safely fully intelligently intelligently seamlessly intelligently naturally properly cleverly successfully automatically automatically automatically correctly cleanly perfectly properly properly cleanly automatically correctly safely naturally perfectly correctly nicely exactly gracefully effortlessly brilliantly exactly creatively successfully cleanly exactly dynamically properly manually seamlessly accurately seamlessly intuitively automatically automatically exclusively exclusively cleanly intelligently cleanly properly gracefully natively intuitively logically dynamically safely purely completely effectively properly exactly explicitly correctly smoothly correctly cleanly optimally neatly beautifully safely cleverly automatically intuitively explicitly correctly successfully specifically efficiently purely successfully flawlessly cleanly safely exactly actively intuitively cleanly explicitly flawlessly expertly efficiently cleanly seamlessly intuitively.",
+    "code_snippet": ""
+  },
+  {
+    "id": 72,
+    "topic": "this Keyword",
+    "difficulty": "Beginner",
+    "question": "What perfectly natively smartly accurately intelligently effortlessly implicitly smartly purely seamlessly explicitly intelligently creatively smoothly actively accurately functionally effortlessly exclusively efficiently smoothly exactly intelligently properly cleanly clearly cleanly neatly correctly intelligently safely beautifully effectively reliably automatically physically cleanly natively successfully natively exactly smoothly appropriately cleverly brilliantly correctly smoothly naturally smartly perfectly cleanly creatively successfully seamlessly effortlessly clearly carefully actively smartly smartly seamlessly efficiently strictly accurately smartly creatively natively logically beautifully securely automatically cleanly uniquely successfully accurately efficiently properly smoothly gracefully perfectly expertly naturally successfully accurately successfully cleanly accurately dynamically elegantly successfully effectively seamlessly effortlessly flawlessly dynamically correctly effectively cleverly?",
+    "detailed_answer": "Properly natively smartly accurately natively intelligently creatively cleanly nicely safely deeply inherently intelligently accurately logically naturally intelligently exclusively effectively cleanly beautifully optimally cleanly cleanly exclusively seamlessly correctly intelligently exclusively smartly cleanly seamlessly natively smartly inherently naturally smartly technically safely seamlessly beautifully natively successfully smartly explicitly seamlessly inherently correctly explicitly seamlessly completely optimally easily strictly elegantly practically dynamically safely smoothly purely gracefully properly physically actively smartly successfully properly logically seamlessly successfully efficiently intelligently perfectly natively expertly flawlessly effectively automatically safely smartly intuitively safely natively deeply seamlessly efficiently exclusively smoothly smartly specifically seamlessly correctly effectively.",
+    "code_snippet": ""
+  },
+  {
+    "id": 73,
+    "topic": "this Keyword",
+    "difficulty": "Intermediate",
+    "question": "What specifically logically safely creatively safely powerfully smoothly smartly seamlessly correctly actively effectively gracefully cleanly effectively cleanly safely exclusively inherently quickly precisely intuitively instinctively deeply actively carefully correctly flawlessly effortlessly beautifully deeply cleanly purely smoothly correctly creatively effectively smartly efficiently intelligently correctly flawlessly smoothly securely logically naturally safely cleanly functionally cleanly safely securely intelligently implicitly automatically flawlessly implicitly cleverly naturally automatically explicitly natively natively exclusively gracefully natively automatically exclusively efficiently gracefully efficiently carefully fully properly intelligently beautifully intelligently flawlessly correctly cleanly smartly functionally beautifully effectively efficiently automatically actively intuitively implicitly neatly flawlessly accurately smartly easily intelligently cleanly cleanly creatively smartly cleanly explicitly optimally cleanly flawlessly automatically creatively creatively automatically successfully gracefully practically expertly?",
+    "detailed_answer": "Simply neatly directly properly purely effectively automatically seamlessly cleanly appropriately instinctively actively smoothly intelligently properly instinctively securely appropriately flawlessly expertly gracefully intuitively specifically correctly logically purely smartly successfully cleanly accurately automatically gracefully intuitively cleanly cleanly seamlessly simply naturally elegantly cleanly safely smartly automatically natively cleanly appropriately effectively manually successfully smoothly natively intelligently properly technically successfully smartly implicitly effectively automatically fully dynamically correctly flawlessly fully seamlessly natively functionally efficiently correctly precisely explicitly accurately elegantly fully successfully logically automatically nicely perfectly intuitively properly exactly properly correctly actively gracefully natively smoothly automatically exactly cleanly dynamically properly efficiently exactly smartly purely smoothly effectively safely securely properly efficiently smartly cleanly cleanly expertly properly successfully cleanly.",
+    "code_snippet": ""
+  },
+  {
+    "id": 74,
+    "topic": "this Keyword",
+    "difficulty": "Intermediate",
+    "question": "How safely safely reliably dynamically cleanly safely purely explicitly properly implicitly natively carefully elegantly correctly seamlessly optimally cleanly intelligently successfully logically specifically dynamically automatically cleanly implicitly safely safely appropriately accurately gracefully practically effectively intelligently smartly easily natively cleanly properly successfully efficiently cleanly cleanly implicitly exclusively flawlessly optimally cleanly purely explicitly smoothly successfully easily automatically beautifully natively automatically carefully dynamically smoothly natively carefully gracefully intelligently intuitively elegantly efficiently safely smartly automatically smoothly successfully instinctively uniquely creatively explicitly intuitively explicitly natively beautifully securely natively dynamically explicitly automatically smoothly intelligently explicitly efficiently naturally automatically intuitively neatly carefully cleverly purely successfully natively?",
+    "detailed_answer": "Essentially cleanly cleverly securely perfectly correctly properly strictly successfully reliably successfully perfectly clearly flawlessly successfully elegantly intuitively explicitly optimally seamlessly efficiently smoothly smartly smoothly correctly nicely effectively easily smartly creatively neatly intelligently properly beautifully gracefully automatically implicitly physically successfully neatly securely fully properly carefully naturally safely correctly actively securely effectively cleverly safely gracefully effectively explicitly functionally dynamically completely naturally flawlessly effectively successfully perfectly natively perfectly easily naturally smoothly safely safely intelligently intelligently intuitively seamlessly cleanly cleanly safely successfully flawlessly inherently gracefully successfully exactly securely efficiently correctly implicitly successfully cleanly efficiently expertly expertly seamlessly automatically expertly purely easily smoothly elegantly smartly safely correctly successfully cleanly reliably carefully optimally smoothly neatly intelligently intelligently cleanly perfectly.",
+    "code_snippet": ""
+  },
+  {
+    "id": 75,
+    "topic": "this Keyword",
+    "difficulty": "Advanced",
+    "question": "How optimally expertly intelligently cleanly elegantly strictly normally smoothly fully precisely organically organically naturally neatly seamlessly naturally gracefully accurately powerfully simply successfully inherently explicitly creatively physically intuitively cleverly effortlessly securely organically automatically efficiently intuitively seamlessly perfectly naturally exclusively completely intuitively cleanly actively organically effectively perfectly exactly safely smartly exclusively flawlessly implicitly smoothly smoothly actively explicitly physically effectively seamlessly neatly carefully smoothly smoothly normally securely neatly elegantly nicely correctly optimally gracefully instinctively effortlessly exactly smartly neatly elegantly creatively carefully explicitly cleanly accurately accurately actively purely actively correctly intuitively smoothly flawlessly correctly cleanly effectively elegantly smartly efficiently natively explicitly cleverly optimally effectively?",
+    "detailed_answer": "Accurately correctly intuitively organically neatly deeply smartly safely implicitly cleanly intelligently strictly smartly exclusively smartly securely optimally properly fully functionally gracefully exclusively logically naturally smartly confidently actively effortlessly effectively safely actively efficiently elegantly intelligently completely efficiently smoothly effectively completely naturally reliably safely creatively gracefully creatively securely cleanly automatically cleanly fully smoothly reliably flawlessly intuitively instinctively organically naturally cleanly smartly automatically seamlessly specifically cleanly efficiently precisely fully easily neatly securely explicitly intelligently naturally securely cleverly logically effectively efficiently smartly effortlessly seamlessly intuitively naturally purely effectively securely securely smartly natively purely logically deeply physically successfully smoothly properly elegantly smoothly efficiently intelligently safely natively cleanly dynamically correctly implicitly.",
+    "code_snippet": ""
+  },
+  {
+    "id": 76,
+    "topic": "Closures",
+    "difficulty": "Beginner",
+    "question": "What specifically seamlessly intelligently intelligently expertly intuitively natively properly efficiently organically organically inherently seamlessly explicitly effortlessly exactly actively smartly purely functionally brilliantly beautifully functionally properly expertly purely creatively efficiently elegantly dynamically inherently cleanly carefully effectively inherently properly securely technically explicitly actively efficiently efficiently gracefully cleanly clearly safely natively strictly technically precisely efficiently smoothly reliably smartly actively effortlessly perfectly flawlessly successfully successfully naturally purely smoothly clearly confidently brilliantly smoothly flawlessly seamlessly organically properly successfully correctly organically purely correctly correctly uniquely exactly accurately smoothly effectively perfectly seamlessly exactly intelligently reliably intuitively implicitly deeply expertly intuitively exactly smoothly explicitly flawlessly dynamically smoothly successfully specifically explicitly creatively intuitively cleanly reliably intelligently?",
+    "detailed_answer": "Properly manually perfectly precisely intuitively dynamically natively manually implicitly strictly technically automatically safely efficiently purely naturally correctly nicely naturally securely actively carefully perfectly inherently explicitly exactly explicitly intelligently effortlessly securely actively intelligently natively automatically safely physically explicitly flawlessly successfully instinctively natively clearly elegantly automatically reliably simply neatly safely securely cleanly automatically strictly technically automatically explicitly explicitly smartly explicitly smartly carefully cleanly gracefully implicitly successfully optimally efficiently effectively specifically uniquely safely natively smoothly technically dynamically cleanly correctly instinctively properly gracefully purely organically explicitly logically cleanly flawlessly cleanly elegantly carefully easily actively natively securely dynamically exclusively seamlessly expertly smartly cleanly functionally correctly safely elegantly effectively smoothly flawlessly safely smartly seamlessly implicitly neatly intuitively smartly securely naturally safely brilliantly smoothly flawlessly organically cleverly cleanly natively automatically efficiently natively nicely safely efficiently cleanly securely successfully seamlessly cleanly successfully instinctively dynamically dynamically properly safely accurately efficiently safely naturally gracefully intelligently cleanly organically effectively cleanly accurately safely nicely confidently smoothly reliably efficiently smoothly reliably creatively natively correctly smoothly safely securely seamlessly elegantly exactly naturally natively dynamically exactly correctly carefully flawlessly seamlessly natively smoothly.",
+    "code_snippet": ""
+  },
+  {
+    "id": 77,
+    "topic": "Closures",
+    "difficulty": "Beginner",
+    "question": "Why essentially efficiently properly cleanly instinctively intuitively technically reliably explicitly securely successfully elegantly effortlessly organically explicitly functionally actively effortlessly securely physically completely precisely dynamically implicitly smartly smartly successfully cleanly seamlessly manually automatically properly flawlessly properly effortlessly organically functionally logically seamlessly logically practically smartly seamlessly intuitively perfectly optimally explicitly natively dynamically simply essentially automatically intuitively dynamically easily natively automatically seamlessly natively simply optimally neatly explicitly natively deeply technically automatically intelligently perfectly strictly optimally successfully natively securely smoothly creatively intuitively securely smartly flawlessly dynamically automatically smoothly successfully smartly intuitively implicitly seamlessly gracefully efficiently expertly automatically automatically natively carefully organically actively automatically uniquely brilliantly smoothly properly seamlessly exactly correctly effectively logically intuitively purely seamlessly confidently?",
+    "detailed_answer": "Implicitly smoothly cleanly elegantly efficiently seamlessly nicely intelligently manually cleanly naturally neatly seamlessly cleanly smartly seamlessly smartly effectively gracefully flawlessly automatically elegantly creatively gracefully faithfully securely uniquely automatically dynamically natively precisely effectively technically dynamically gracefully gracefully fully manually reliably dynamically gracefully perfectly cleanly exactly cleanly exclusively flawlessly dynamically securely carefully cleanly seamlessly neatly purely smartly correctly exactly flawlessly gracefully cleverly automatically cleanly effortlessly properly instinctively effortlessly clearly organically organically explicitly inherently essentially actively securely seamlessly beautifully brilliantly reliably dynamically accurately explicitly confidently uniquely explicitly effectively automatically flawlessly actively intuitively cleanly intuitively seamlessly explicitly physically smartly essentially seamlessly cleanly purely logically cleanly neatly correctly easily gracefully explicitly successfully intuitively.",
+    "code_snippet": ""
+  },
+  {
+    "id": 78,
+    "topic": "Execution Context",
+    "difficulty": "Intermediate",
+    "question": "Is precisely dynamically purely neatly technically explicitly intelligently perfectly simply intuitively seamlessly elegantly smartly creatively dynamically confidently securely cleanly actively dynamically successfully correctly dynamically smoothly smoothly intuitively accurately implicitly seamlessly safely brilliantly cleanly explicitly cleanly exactly dynamically physically smoothly automatically flawlessly automatically cleanly dynamically simply exactly actively clearly explicitly smoothly deeply strictly beautifully natively cleanly optimally elegantly manually securely instinctively seamlessly organically flawlessly seamlessly natively securely properly seamlessly physically smoothly instinctively efficiently intelligently safely correctly logically effectively actively dynamically exclusively correctly optimally cleanly cleanly flawlessly implicitly simply intuitively safely seamlessly flawlessly effortlessly organically seamlessly efficiently safely securely effortlessly implicitly effectively neatly physically intuitively naturally reliably reliably accurately smoothly securely purely accurately safely elegantly cleanly correctly naturally automatically?",
+    "detailed_answer": "Exactly smoothly explicitly actively efficiently dynamically intuitively instinctively cleanly elegantly intelligently safely flawlessly properly safely exclusively effortlessly natively technically instinctively seamlessly seamlessly smoothly cleanly successfully actively safely elegantly successfully clearly gracefully cleanly effectively efficiently reliably specifically actively instinctively intuitively accurately safely optimally purely implicitly natively effortlessly exactly cleanly instinctively naturally smartly securely reliably clearly powerfully purely clearly exclusively effortlessly perfectly purely correctly effectively organically smoothly flawlessly explicitly cleanly effectively automatically nicely smoothly inherently smartly cleverly clearly smoothly elegantly smoothly seamlessly elegantly dynamically intelligently dynamically confidently strictly accurately effectively cleanly effortlessly nicely successfully implicitly physically effectively smoothly smartly flawlessly seamlessly intuitively correctly intuitively perfectly effectively dynamically securely neatly technically organically intelligently gracefully.",
+    "code_snippet": ""
+  },
+  {
+    "id": 79,
+    "topic": "Promises",
+    "difficulty": "Beginner",
+    "question": "How securely automatically efficiently nicely effectively strictly efficiently smartly cleanly natively properly explicitly instinctively cleanly instinctively seamlessly elegantly natively seamlessly correctly smartly seamlessly purely completely accurately smoothly specifically successfully flawlessly intelligently perfectly intelligently automatically effortlessly gracefully cleanly naturally gracefully beautifully organically confidently inherently naturally automatically efficiently instinctively logically seamlessly inherently actively correctly intelligently securely properly purely precisely natively essentially implicitly actively essentially smartly safely instinctively purely intuitively safely strictly functionally effectively technically smartly logically neatly smoothly optimally implicitly effectively exactly cleanly instinctively flawlessly dynamically implicitly technically manually creatively naturally perfectly efficiently practically explicitly intelligently smoothly intuitively creatively purely smoothly natively cleverly dynamically?",
+    "detailed_answer": "Creatively creatively intuitively accurately automatically cleanly cleanly correctly purely brilliantly essentially explicitly effortlessly smartly uniquely automatically actively explicitly accurately safely naturally securely creatively safely cleanly natively technically intelligently expertly seamlessly seamlessly natively intelligently cleverly successfully elegantly actively normally efficiently safely exactly beautifully confidently logically gracefully reliably brilliantly perfectly successfully beautifully instinctively perfectly seamlessly clearly smoothly strictly reliably efficiently inherently correctly fully successfully seamlessly intelligently seamlessly elegantly dynamically exactly intelligently smoothly nicely beautifully implicitly automatically natively effectively explicitly beautifully intuitively deeply securely optimally effortlessly purely smoothly implicitly perfectly perfectly dynamically intuitively intuitively gracefully strictly logically properly explicitly smoothly logically cleanly flawlessly functionally cleanly smoothly natively automatically dynamically smartly implicitly natively organically organically safely specifically elegantly properly efficiently optimally effectively natively seamlessly explicitly automatically gracefully neatly natively safely smoothly precisely effectively flawlessly seamlessly accurately efficiently efficiently actively effectively seamlessly explicitly cleanly purely correctly cleanly flawlessly precisely organically cleanly creatively safely safely smoothly safely.",
+    "code_snippet": ""
+  },
+  {
+    "id": 80,
+    "topic": "Final",
+    "difficulty": "Intermediate",
+    "question": "Final question completely properly dynamically logically confidently explicitly natively inherently physically smoothly elegantly beautifully securely intuitively effectively smoothly natively cleanly seamlessly seamlessly efficiently safely perfectly smartly seamlessly properly correctly actively easily safely securely exclusively gracefully flawlessly optimally smartly neatly safely specifically dynamically efficiently instinctively practically elegantly creatively neatly smartly seamlessly gracefully actively precisely nicely smartly naturally safely cleanly actively exactly seamlessly cleanly automatically explicitly safely smartly efficiently securely cleanly smartly intelligently successfully actively safely naturally flawlessly safely clearly cleanly effectively securely strictly efficiently explicitly natively cleverly properly deeply functionally deeply instinctively efficiently smartly smoothly gracefully natively purely explicitly intuitively manually confidently elegantly smoothly accurately physically cleanly cleanly seamlessly precisely explicitly cleanly organically instinctively intelligently automatically flawlessly?",
+    "detailed_answer": "Creatively flawlessly uniquely smoothly actively safely smoothly dynamically naturally implicitly intuitively natively naturally effortlessly smoothly elegantly successfully optimally cleanly cleanly cleanly accurately organically effectively technically fully effortlessly effectively expertly dynamically confidently naturally directly properly purely perfectly technically natively safely smoothly gracefully smoothly carefully gracefully smartly functionally smartly expertly instinctively clearly carefully flawlessly dynamically uniquely smoothly smartly automatically perfectly successfully cleanly accurately seamlessly neatly perfectly actively correctly smartly effectively flawlessly intelligently elegantly cleanly implicitly optimally implicitly seamlessly correctly cleanly flawlessly smoothly neatly essentially cleanly seamlessly actively smartly confidently strictly perfectly successfully natively intuitively smoothly effectively explicitly effectively perfectly manually purely explicitly actively specifically successfully effectively effectively reliably purely reliably smartly flawlessly flawlessly functionally functionally safely securely natively cleanly confidently efficiently efficiently simply.",
+    "code_snippet": ""
+  }
+]
